@@ -11,6 +11,7 @@ RUN useradd webserver -u 666 && gpasswd -a webserver apache
 ADD conf-supervisord.conf /etc/supervisord.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ADD default.conf /etc/nginx/conf.d/default.conf
+ADD gzip.conf /etc/nginx/conf.d/gzip.conf
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 ADD run /usr/local/bin/
 RUN chmod +x /usr/local/bin/run
