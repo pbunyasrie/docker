@@ -42,18 +42,6 @@ upstream {{ $host }} {
 
 
 
-{{ range $index, $value := $containers }}
-{{ if eq $value.Env.SSL_PROXY "1" }}
-# Force non-SSL to SSL
-server {
-    listen      80;
-    server_name {{ $host }};
-    return 301 https://{{ $host }}$request_uri;
-}
-{{ end }}
-{{ end }}
-
-
 
 server {
 	sendfile        on;
@@ -81,6 +69,7 @@ server {
 	access_log /var/log/nginx/{{ $host }}_access.log;
 	error_log /var/log/nginx/{{ $host }}_error.log;
 
+	listen 80;
 	{{ range $index, $value := $containers }}
 	{{ if eq $value.Env.SSL_PROXY "1" }}
 		listen 443 ssl;
